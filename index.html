@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UMKM-Desa | Font Adjusted</title>
+    <title>UMKM-Desa | Toggle Search</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         html, body {
@@ -42,6 +42,19 @@
             will-change: transform;
         }
 
+        /* Animasi untuk area pencarian */
+        #search-bar-container {
+            transition: all 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #search-bar-container.show {
+            max-height: 100px;
+            opacity: 1;
+            margin-top: 1rem;
+        }
+
         #side-sheet { 
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             will-change: transform;
@@ -61,23 +74,26 @@
             background-size: 1.2em;
         }
 
-        .aspect-3-4 {
-            aspect-ratio: 3 / 4;
-        }
+        .aspect-3-4 { aspect-ratio: 3 / 4; }
     </style>
 </head>
 <body class="antialiased font-sans text-gray-900">
 
     <div id="header-wrapper" class="sticky top-0 z-40 bg-[#F9FAFB] px-5 py-4 border-none shadow-sm">
         <header>
-            <div class="flex justify-between items-center mb-4">
+            <div class="flex justify-between items-center">
                 <div>
                     <h1 class="text-2xl font-black text-green-700 leading-none tracking-tighter">UMKM<span class="text-orange-500">-Desa</span></h1>
                     <p id="current-region" class="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em] mt-1">Kabupaten Mamuju</p>
                 </div>
+                <button onclick="toggleSearchBar()" class="text-green-700 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <svg id="search-icon-svg" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
             </div>
 
-            <div class="flex gap-2">
+            <div id="search-bar-container" class="flex gap-2">
                 <div class="relative flex-1">
                     <input type="text" id="search-input" oninput="handleSearch()" placeholder="Cari produk desa..." class="w-full bg-white border-2 border-green-700 rounded-2xl py-3 px-10 text-sm focus:ring-2 focus:ring-green-500/20 outline-none transition-all">
                     <svg class="w-4 h-4 absolute left-4 top-4 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -135,6 +151,21 @@
         const loader = document.getElementById('skeleton-loader');
         const headerWrapper = document.getElementById('header-wrapper');
         const categorySelect = document.getElementById('category-select');
+
+        // Fungsi Toggle Search Bar
+        function toggleSearchBar() {
+            const searchBar = document.getElementById('search-bar-container');
+            const iconSvg = document.getElementById('search-icon-svg');
+            searchBar.classList.toggle('show');
+            
+            if (searchBar.classList.contains('show')) {
+                iconSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>'; // Ikon X
+            } else {
+                iconSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>'; // Ikon Lensa
+                document.getElementById('search-input').value = '';
+                applyFilters();
+            }
+        }
 
         let lastScrollTop = 0;
         window.addEventListener('scroll', () => {
