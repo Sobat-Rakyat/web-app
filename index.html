@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="bg-[#F9FAFB]">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UMKM-Desa | Transparent Layer</title>
+    <title>UMKM-Desa | Light Theme Clean</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* FOKUS: Latar halaman mendekati putih */
+        html, body {
+            background-color: #F9FAFB !important;
+            margin: 0;
+            padding: 0;
+        }
+
         .glass-loading {
             position: relative;
             overflow: hidden;
@@ -25,7 +32,7 @@
         .product-card { 
             transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             will-change: transform;
-            box-shadow: 0 10px 25px -15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px -10px rgba(0,0,0,0.07);
         }
         .product-card:active { transform: scale(0.97); }
 
@@ -60,9 +67,9 @@
         }
     </style>
 </head>
-<body class="bg-[#E5E7EB] overflow-x-hidden antialiased font-sans text-gray-900">
+<body class="antialiased font-sans text-gray-900">
 
-    <div id="header-wrapper" class="sticky top-0 z-40 bg-white/60 backdrop-blur-xl px-5 py-4 border-none">
+    <div id="header-wrapper" class="sticky top-0 z-40 bg-[#F9FAFB] px-5 py-4 border-none shadow-sm">
         <header>
             <div class="flex justify-between items-center mb-4">
                 <div>
@@ -73,29 +80,29 @@
 
             <div class="flex gap-2">
                 <div class="relative flex-1">
-                    <input type="text" id="search-input" oninput="handleSearch()" placeholder="Cari produk desa..." class="w-full bg-gray-200/40 border-none rounded-2xl py-3 px-10 text-sm focus:ring-2 focus:ring-green-500/30 outline-none transition-all">
-                    <svg class="w-4 h-4 absolute left-4 top-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <input type="text" id="search-input" oninput="handleSearch()" placeholder="Cari produk desa..." class="w-full bg-white border-2 border-green-700 rounded-2xl py-3 px-10 text-sm focus:ring-2 focus:ring-green-500/20 outline-none transition-all">
+                    <svg class="w-4 h-4 absolute left-4 top-4 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </div>
-                <button onclick="toggleSheet()" class="bg-green-700 text-white p-3 rounded-2xl shadow-lg shadow-green-900/10 active:scale-90 transition-transform">
+                <button onclick="toggleSheet()" class="bg-green-700 text-white p-3 rounded-2xl shadow-lg shadow-green-900/20 active:scale-90 transition-transform flex items-center justify-center">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
                 </button>
             </div>
         </header>
     </div>
 
-    <main class="bg-transparent p-4 pb-12">
-        <div id="product-container" class="grid grid-cols-2 gap-4 bg-transparent"></div>
-        <div id="skeleton-loader" class="grid grid-cols-2 gap-4 mt-4 bg-transparent">
+    <main class="p-4 pb-12">
+        <div id="product-container" class="grid grid-cols-2 gap-4"></div>
+        <div id="skeleton-loader" class="grid grid-cols-2 gap-4 mt-4">
             <script>
                 for(let i=0; i<4; i++){
                     document.write(`<div class="bg-white rounded-[1.8rem] overflow-hidden"><div class="aspect-3-4 glass-loading"></div><div class="p-4"><div class="h-3 glass-loading rounded-full w-3/4 mb-2"></div><div class="h-5 glass-loading rounded-full w-full"></div></div></div>`);
                 }
             </script>
         </div>
-        <div id="sentinel" class="h-20 bg-transparent"></div>
+        <div id="sentinel" class="h-20"></div>
     </main>
 
-    <div id="sheet-overlay" onclick="toggleSheet()" class="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity"></div>
+    <div id="sheet-overlay" onclick="toggleSheet()" class="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity"></div>
     <div id="side-sheet" class="fixed top-0 right-0 bottom-0 w-3/4 bg-white z-[60] shadow-2xl transform translate-x-full p-6 flex flex-col">
         <h2 class="text-xl font-black text-gray-800 mb-6 tracking-tight">Filter Wilayah</h2>
         <div class="space-y-3 overflow-y-auto pr-1">
@@ -216,13 +223,11 @@
                     <div class="product-card bg-white rounded-[1.8rem] overflow-hidden flex flex-col">
                         <div class="relative aspect-3-4 bg-gray-100 flex flex-col justify-end overflow-hidden">
                             <img src="${IMG_PREFIX}${item.link_thumbnail}" decoding="async" class="absolute inset-0 w-full h-full object-cover">
-                            
                             <div class="relative z-10 self-end bg-white pt-1.5 pl-3 rounded-tl-[1rem] flex items-center gap-1.5 translate-y-[1px]">
                                 <svg class="w-1.5 h-1.5 text-green-600 mb-[1px]" fill="currentColor" viewBox="0 0 20 20"><path d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"/></svg>
                                 <span class="text-[7px] font-black text-gray-400 uppercase tracking-tight pr-3 pb-1">${item.desa.replace('Desa.', '')}</span>
                             </div>
                         </div>
-
                         <div class="p-4 pt-5 flex flex-col flex-1 justify-between">
                             <div>
                                 <h3 class="text-[12px] font-semibold text-gray-800 line-clamp-2 leading-tight mb-2 tracking-tight">${item.nama_produk}</h3>
